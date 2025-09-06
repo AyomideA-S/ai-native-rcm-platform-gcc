@@ -100,7 +100,7 @@ torch==2.8.0
 torchvision==0.23.0
 typer==0.15.1
 typing_extensions==4.12.2
-urllib3==2.3.0
+urllib3==2.5.0
 uvicorn==0.34.0
 virtualenv==20.28.1
 watchdog==5.0.3
