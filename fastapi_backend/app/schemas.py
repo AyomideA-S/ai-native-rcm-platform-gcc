@@ -32,3 +32,14 @@ class ItemRead(ItemBase):
     user_id: UUID
 
     model_config = {"from_attributes": True}
+
+
+class Claim(BaseModel):
+    diagnosis: str
+    code: str
+
+    def validate_gcc(self):
+        valid_codes = {"E11.9", "I10", "S52.5"}  # Sample ICD-10 for GCC
+        if self.code not in valid_codes:
+            raise ValueError("Invalid GCC-compliant code")
+        return True

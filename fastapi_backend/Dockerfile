@@ -21,13 +21,19 @@ COPY pyproject.toml uv.lock ./
 # Install dependencies using uv
 RUN uv sync --frozen
 
+# Ensure torch is installed (workaround for uv index issue)
+RUN uv run pip install torch --index-url https://download.pytorch.org/whl/cpu
+
 ENV PATH="/app/.venv/bin:$PATH"
 
 # Copy the rest of the application code
 COPY . .
 
+# Make start.sh executable
+RUN chmod +x start.sh
+
 # Expose the application port
 EXPOSE 8000
 
 # Command to run the application
-CMD ["./start.sh"]
+CMD ["bash", "/app/start.sh"]

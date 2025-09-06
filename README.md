@@ -1,70 +1,161 @@
-## Next.js FastAPI Template
+# AI-Native RCM Platform for GCC Healthcare
 
-<a href="https://www.vintasoftware.com/blog/next-js-fastapi-template"><img src="docs/images/banner.png" alt="Next.js FastAPI Template" width="auto"></a>
-<p align="center">
-    <em>Next.js FastAPI Template: Python + Modern TypeScript stack with Zod validation.</em>
-</p>
-<p align="center">
-<a href="https://github.com/vintasoftware/nextjs-fastapi-template/actions/workflows/ci.yml" target="_blank">
-    <img src="https://github.com/vintasoftware/nextjs-fastapi-template/actions/workflows/ci.yml/badge.svg" alt="CI">
-</a>
-<a href="https://coveralls.io/github/vintasoftware/nextjs-fastapi-template" target="_blank">
-    <img src="https://coveralls.io/repos/github/vintasoftware/nextjs-fastapi-template/badge.svg" alt="Coverage">
-</a>
-</p>
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
----
+An AI-powered Revenue Cycle Management (RCM) platform reimagining healthcare administration in the GCC. Automates eligibility checks, prior authorizations, coding, claims scrubbing, denial management, and reconciliation to reduce paperwork and boost efficiency.
 
-**Documentation**: <a href="https://vintasoftware.github.io/nextjs-fastapi-template/" target="_blank">https://vintasoftware.github.io/nextjs-fastapi-template/</a>
+## About The Project
 
-**Source Code**: <a href="https://github.com/vintasoftware/nextjs-fastapi-template/" target="_blank">https://github.com/vintasoftware/nextjs-fastapi-template/</a>
+This prototype aligns with Humaein's vision of "patients, not paperwork" by using AI agents for end-to-end RCM workflows. Key features include ML-based denial prediction (PyTorch), modular pipelines (Dagster), and compliance with GCC regulations (e.g., DHA/MOH).
 
----
+Built With:
 
-The Next.js FastAPI Template provides a solid foundation for scalable, high-performance web applications, following clean architecture and best practices. It simplifies development by integrating FastAPI, Pydantic, and Next.js with TypeScript and Zod, ensuring end-to-end type safety and schema validation between frontend and backend.
+- [FastAPI](https://fastapi.tiangolo.com/) (Backend API)
+- [Next.js](https://nextjs.org/) (Frontend UI)
+- [PyTorch](https://pytorch.org/) (ML Models for Denial Prediction)
+- [PostgreSQL](https://www.postgresql.org/) (Database)
+- [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/) (Containerization)
+- [uv](https://github.com/astral-sh/uv) (Python Dependency Management)
+- [pnpm](https://pnpm.io/) (Node.js Package Management)
+- [MailHog](https://github.com/mailhog/MailHog) (Email Testing)
 
-The FastAPI backend supports fully asynchronous operations, optimizing database queries, API routes, and test execution for better performance. Deployment is seamless, with both backend and frontend fully deployable to Vercel, enabling quick product releases with minimal configuration.
+## Getting Started
 
-### Key features
-✔ End-to-end type safety – Automatically generated typed clients from the OpenAPI schema ensure seamless API contracts between frontend and backend.
+Follow these steps to set up and run the project locally using Docker.
 
-✔ Hot-reload updates – The client updates automatically when backend routes change, keeping FastAPI and Next.js in sync.
+### Prerequisites
 
-✔ Versatile foundation – Designed for MVPs and production-ready applications, with a pre-configured authentication system and API layer.
+- **Docker**: Version 20.10 or later ([Install Docker](https://docs.docker.com/get-docker/))
+- **Docker Compose**: Version 2.0 or later (usually included with Docker Desktop)
+- **Git**: For cloning the repository
 
-✔ Quick deployment – Deploys a full-stack application—including authentication flow and a dashboard—on Vercel in just a few steps.
+### Installation
 
-✔ Production-ready authentication – Includes a pre-configured authentication system and dashboard interface, allowing you to immediately start development with user management features.
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/AyomideA-S/ai-native-rcm-platform-gcc.git
+   cd ai-native-rcm-platform-gcc
+   ```
 
-## Technology stack
-This template features a carefully selected set of technologies to ensure efficiency, scalability, and ease of use:
+2. **Set Up Environment Variables**:
+   - Copy the example environment file:
+     ```bash
+     cp .env.example .env
+     ```
+   - Edit `.env` and fill in the required variables (database credentials, API keys, etc.). The file includes settings for PostgreSQL, email, and other services.
 
-- Zod + TypeScript – Type safety and schema validation across the stack.
-- fastapi-users – Complete authentication system with:
-    - Secure password hashing
-    - JWT authentication
-- Email-based password recovery
-- shadcn/ui – Prebuilt React components with Tailwind CSS.
-- OpenAPI-fetch – Fully typed client generation from the OpenAPI schema.
-- UV – Simplified dependency management and packaging.
-- Docker Compose – Consistent environments for development and production.
-- Pre-commit hooks – Automated code linting, formatting, and validation before commits.
-- Vercel Deployment – Serverless backend and scalable frontend, deployable with minimal configuration.
+3. **Build and Run with Docker Compose**:
+   ```bash
+   docker compose up --build
+   ```
+   - This will build the images and start all services:
+     - **Backend** (FastAPI): `http://localhost:8000`
+     - **Frontend** (Next.js): `http://localhost:3000`
+     - **Database** (PostgreSQL): Port 5432
+     - **MailHog** (Email Testing): `http://localhost:8025`
+   - The first build may take time due to PyTorch installation.
 
-This is a partial list of the technologies included in the template. For a complete overview, visit our [Technology selection](https://vintasoftware.github.io/nextjs-fastapi-template/technology-selection/) page.
+4. **Verify Setup**:
+   - Backend API Docs: `http://localhost:8000/docs`
+   - Health Check: `http://localhost:8000/health`
+   - Frontend Dashboard: `http://localhost:3000`
+   - Database: Accessible via `postgresql://postgres:password@localhost:5432/rcm_db`
+   - Email Testing: `http://localhost:8025`
 
-## Get Started
+### Local Development (Optional)
 
-To use this template, visit our [Get Started](https://vintasoftware.github.io/nextjs-fastapi-template/get-started/) and follow the steps.
+If you prefer running services locally without Docker:
 
-## Using the template? Let's talk!
+1. **Backend Setup**:
+   - Install Python 3.12 and uv
+   - `cd fastapi_backend`
+   - `uv sync` (installs dependencies including PyTorch)
+   - `uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000`
 
-We’re always curious to see how the community builds on top of it and where it’s being used. To collaborate:
+2. **Frontend Setup**:
+   - Install Node.js 18+ and pnpm
+   - `cd nextjs-frontend`
+   - `pnpm install`
+   - `pnpm dev`
 
-- Join the conversation on [GitHub Discussions](https://github.com/vintasoftware/nextjs-fastapi-template/discussions)
-- Report bugs or suggest improvements via [issues](https://github.com/vintasoftware/nextjs-fastapi-template/issues)
-- Check the [Contributing](https://vintasoftware.github.io/nextjs-fastapi-template/contributing/) guide to get involved
+3. **Database**:
+   - Run PostgreSQL locally or use Docker for just the DB: `docker compose up db`
 
-This project is maintained by [Vinta Software](https://www.vinta.com.br/) and is actively used in production systems we build for clients. Talk to our expert consultants — get a free technical review: contact@vinta.com.br.
+## Usage
 
-*Disclaimer: This project is not affiliated with Vercel.*
+1. **Access the Application**:
+   - Frontend: `http://localhost:3000` (Next.js dashboard)
+   - Backend API: `http://localhost:8000/docs` (FastAPI interactive docs)
+
+2. **Test AI Features**:
+   - Use the `/predict-denial/` endpoint to test denial prediction
+   - Input sample patient/claim data via the API or frontend
+
+3. **Database Management**:
+   - Use tools like pgAdmin or DBeaver to connect to `localhost:5432`
+   - Alembic migrations are handled automatically in Docker
+
+4. **Email Testing**:
+   - View sent emails at `http://localhost:8025`
+
+## Project Structure
+
+```
+ai-native-rcm-platform-gcc/
+├── fastapi_backend/          # FastAPI backend
+│   ├── app/                  # Main application code
+│   ├── Dockerfile            # Backend container config
+│   ├── pyproject.toml        # Python dependencies
+│   └── uv.lock               # Dependency lock file
+├── nextjs-frontend/          # Next.js frontend
+│   ├── app/                  # Next.js app directory
+│   ├── Dockerfile            # Frontend container config
+│   └── package.json          # Node dependencies
+├── docker-compose.yml        # Multi-service orchestration
+├── .env.example              # Environment variables template
+└── README.md                 # This file
+```
+
+## Development Notes
+
+- **Hot Reload**: Enabled for both backend and frontend in development
+- **Database Migrations**: Handled by Alembic (runs automatically in Docker)
+- **Model Files**: PyTorch models (`.pth` files) are generated at runtime and not committed to Git
+- **Environment**: Uses Python 3.12, Node.js 18+, PostgreSQL 17
+
+## Roadmap
+
+- [ ] Integrate real EMR APIs (e.g., Epic, Cerner)
+- [ ] Add LLM for appeal drafting (LangChain integration)
+- [ ] Enhance ML accuracy with real GCC healthcare datasets
+- [ ] Implement CI/CD pipeline for GCP/Azure deployment
+- [ ] Add comprehensive testing suite
+
+See [open issues](https://github.com/AyomideA-S/ai-native-rcm-platform-gcc/issues) for details.
+
+## Contributing
+
+Contributions welcome! 
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/AmazingFeature`
+3. Commit changes: `git commit -m 'Add feature'`
+4. Push to branch: `git push origin feature/AmazingFeature`
+5. Open a Pull Request
+
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+## Contact
+
+Ayomide Ayodele-Soyebo - midesuperbest@gmail.com
+
+Project Link: https://github.com/AyomideA-S/ai-native-rcm-platform-gcc
+
+## Acknowledgments
+
+- [FastAPI Documentation](https://fastapi.tiangolo.com/)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [PyTorch Tutorials](https://pytorch.org/tutorials/)
+- Inspired by AI healthcare startups like AKASA and Innovaccer

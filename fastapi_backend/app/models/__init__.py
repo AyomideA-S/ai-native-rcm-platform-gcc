@@ -28,3 +28,6 @@ class Item(Base):
     user_id = Column(UUID(as_uuid=True), ForeignKey("user.id"), nullable=False)
 
     user = relationship("User", back_populates="items")
+
+
+__all__ = ["Base", "User", "Item"]
